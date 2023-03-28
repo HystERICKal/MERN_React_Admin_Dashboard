@@ -20,7 +20,7 @@ import {
   HomeOutlined,
   ShoppingCartOutlined,
   Groups2Outlined,
-  ReciptLongOutlined,
+  ReceiptLongOutlined,
   PublicOutlined,
   PointOfSaleOutlined,
   TodayOutlined,
@@ -33,6 +33,65 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "assets/rihanna.jpg";
+
+const navItems = [
+  {
+    text: "Dashboard",
+    icon: <HomeOutlined />,
+  },
+  {
+    text: "Client Facing",
+    icon: null,
+  },
+  {
+    text: "Products",
+    icon: <ShoppingCartOutlined />,
+  },
+  {
+    text: "Customers",
+    icon: <Groups2Outlined />,
+  },
+  {
+    text: "Transactions",
+    icon: <ReceiptLongOutlined />,
+  },
+  {
+    text: "Geography",
+    icon: <PublicOutlined />,
+  },
+  {
+    text: "Sales",
+    icon: null,
+  },
+  {
+    text: "Overview",
+    icon: <PointOfSaleOutlined />,
+  },
+  {
+    text: "Daily",
+    icon: <TodayOutlined />,
+  },
+  {
+    text: "Monthly",
+    icon: <CalendarMonthOutlined />,
+  },
+  {
+    text: "Breakdown",
+    icon: <PieChartOutlined />,
+  },
+  {
+    text: "Management",
+    icon: null,
+  },
+  {
+    text: "Admin",
+    icon: <AdminPanelSettingsOutlined />,
+  },
+  {
+    text: "Performance",
+    icon: <TrendingUpOutlined />,
+  },
+];
 
 const Sidebar = ({
   // These are properties passed in from .../layout/index.js
@@ -64,7 +123,7 @@ const Sidebar = ({
           sx={{
             width: drawerWidth,
             "& .MuiDrawer-paper": {
-              //Custom CSS to modify default css settings
+              // Custom CSS to modify default css settings
               color: theme.palette.secondary[200],
               backgroundColor: theme.palette.background.alt,
               boxSixing: "border-box",
@@ -72,7 +131,76 @@ const Sidebar = ({
               width: drawerWidth,
             },
           }}
-        ><Drawer/>
+        >
+          <Box width="100%">
+            <Box m="1.5rem 2rem 2rem 3rem">
+              <FlexBetween color={theme.palette.secondary.main}>
+                <Box display="flex" alignItems="center" gap="0.5rem">
+                  <Typography variant="h4" fontWeight="bold">
+                    ECOMVISION
+                  </Typography>
+                </Box>
+                {!isNonMobile && ( //If it's on mobile and the sidebar is up. There will be a button to close it so it doesn't get in the way
+                  <IconButton onCLick={() => setIsSidebarOpen()}>
+                    <ChevronLeft />
+                  </IconButton>
+                )}
+              </FlexBetween>
+            </Box>
+            <List>
+              {navItems.map(({ text, icon }) => {
+                if (!icon) {
+                  //No icon present
+                  return (
+                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                      {text}
+                    </Typography>
+                  );
+                }
+
+                const lcText = text.toLowerCase();
+
+                return (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton
+                      onCLick={() => {
+                        navigate(`/${lcText}`);
+                        setActive(lcText);
+                      }}
+                      sx={{
+                        backgroundColor:
+                          active === lcText
+                            ? theme.palette.primary[300]
+                            : "transparent",
+                        color:
+                          active === lcText
+                            ? theme.palette.primary[600]
+                            : theme.palette.primary[100],
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          //setting a different color for active links
+                          ml: "2rem",
+                          color:
+                            active === lcText
+                              ? theme.palette.primary[600]
+                              : theme.palette.primary[200],
+                        }}
+                      >
+                        {icon}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                      {active === lcText && (
+                        <ChevronRightOutlined sx={{ ml: "auto" }} />
+                      )}
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Box>
+        </Drawer>
       )}
     </Box>
   );
