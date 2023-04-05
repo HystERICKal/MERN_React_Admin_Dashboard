@@ -141,7 +141,7 @@ const Sidebar = ({
                   </Typography>
                 </Box>
                 {!isNonMobile && ( //If it's on mobile and the sidebar is up. There will be a button to close it so it doesn't get in the way
-                  <IconButton onCLick={() => setIsSidebarOpen()}>
+                  <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                     <ChevronLeft />
                   </IconButton>
                 )}

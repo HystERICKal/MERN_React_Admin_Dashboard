@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   mode: "dark", //start with the dak mode
+  userId: "63701cc1f03239b700000e", //This exists in the back end mock data. User ID is created in the routes>general.js in the server(backend)
 };
 
 export const globalSlice = createSlice({
